@@ -1,0 +1,103 @@
+:root {
+    --yellow-tranparent: rgba(253, 238, 215, 0.9);
+
+    --blue: rgb(70, 101, 111);
+    --grey: rgb(128, 128, 128);
+    --red: rgb(222, 111, 66);
+    --yellow: rgb(253, 238, 215);
+    --green: rgb(176, 205, 66)
+}
+
+#taskbar {
+    background-color: var(--blue);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 3%;
+}
+
+#desktop {
+    position: fixed;
+    left: 0px;
+    top: 3%;
+    background-color: var(--yellow);
+}
+
+.div {
+    background-color: var(--yellow-tranparent);
+    border: 5px solid var(--blue);
+    border-radius: 13px;
+    position: absolute;
+}
+
+.percentageBar {
+    top: 40px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 5px solid var(--blue);
+    position: absolute;
+    border-radius: 13px;
+    left: 5px;
+    width: calc(100% - 20px);
+}
+
+.bar {
+    background-color: var(--green);
+    border: 0px;
+    position: absolute;
+    top: 2px;
+    height: calc(100% - 4px);
+    left: 2px;
+    right: 2px;
+    border-radius: 6px;
+}
+
+.batteryInText {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    top: 0px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: xx-large;
+    -webkit-text-fill-color: var(--blue);
+    -webkit-text-stroke: 1px var(--blue);
+    /*-webkit-text-fill-color: var(--background-color);
+    -webkit-text-stroke: 3px var(--second-color);*/
+}
+
+.batteryOutText {
+    left: 10px;
+    text-align: left;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    top: 0px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: xx-large;
+    font-weight: 400;
+    -webkit-text-fill-color: var(--blue);
+    -webkit-text-stroke: 1px var(--blue);
+    /*-webkit-text-fill-color: var(--background-color);
+    -webkit-text-stroke: 3px var(--second-color);*/
+}
+
+#leftBatteryText{
+    text-align: left;
+    font-weight: 300;
+    font-size: x-large;
+    -webkit-text-stroke: 0px var(--blue);
+    margin: 5px;
+}
+#MidBatteryText{
+    text-align: center;
+}
+#rightBatteryText{
+    margin-top: 5px;
+    margin-left: -5px;
+    text-align: right;
+    font-weight: 300;
+    font-size: x-large;
+    -webkit-text-stroke: 0px var(--blue);
+}
