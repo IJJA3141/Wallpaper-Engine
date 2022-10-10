@@ -72,7 +72,7 @@ class percentageBar {
   }
 }
 
-class battery {
+class batteryBox {
   obj: Element;
 
   private bar: percentageBar;
@@ -111,7 +111,7 @@ const test = document.createElement("div");
 test.className = "div";
 test.setAttribute("style", "height: 500px; width: 500px;");
 
-const t = new battery(40);
+const t = new batteryBox(40);
 
 test.appendChild(t.obj);
 
@@ -122,3 +122,5 @@ const si = require('systeminformation');
 si.cpu()
     .then(data => console.log(data))
     .catch(error => console.error(error));
+
+export {batteryBox}
