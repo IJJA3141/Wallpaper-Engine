@@ -1,9 +1,11 @@
-const { batteryBox } = require("./public/js/app.js");
-const { ReactDOM } = require("react-dom")
+const systeminformation = require("systeminformation")
+
+const express = require("express");
+const { json } = require("stream/consumers");
+const { stringify } = require("querystring");
 
 const URI = "http://127.0.0.1:3000/";
 
-const express = require("express");
 const app = express();
 const PORT = 3000;
 
@@ -14,33 +16,25 @@ app.use("/js", express.static(__dirname + "public/js"));
 app.set("view engine", "ejs");
 
 app.get("", (req, res) => {
-  res.render(__dirname + "/views/index");
-  const taskbar = document.getElementById("taskbar");
-  const desktop = document.getElementById("desktop");
   
-  console.log(taskbar)
-
-  taskbar.setAttribute("style", "width: " + window.innerWidth + "px;");
-  desktop.setAttribute(
-    "style",
-    "width: " +
-    window.innerWidth +
-    "px; height: " +
-    (window.innerHeight * 97) / 100 +
-    "px;"
-    );
-    ReactDOM.render(desktop)
-/*
-  const t = new batteryBox(40);
-  const test = document.createElementNS("div");
-  
-  test.setAttribute("style", "height: 500px; width: 500px;");
-  
-  test.appendChild(t)
-
-  desktop.appendChild(test);*/
+  res.render(__dirname + "/views/index.ejs");
 });
+
+app.get("/api", async (req, res)=>{
+  res.send({data: await getData()})
+})
 
 app.listen(PORT, () => {
   console.info("Hi!");
 });
+
+function getData(){
+  let res = new Promise
+  let data = JSON.parse({})
+
+  // add data from api
+  systeminformation.cpuCache().then(response => data.push({cpu: response}))
+  systeminformation.graphics().then(response=> data.push({cpu: response}))
+  
+  res.resolve(stringify(data))
+}

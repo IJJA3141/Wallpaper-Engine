@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "es6", /*Specify ECMAScript target version*/
-    "outDir": "public/js/" /*where to compile javascript files*/
+    "outDir": "../public/js/" /*where to compile javascript files*/
   },
     "include": [
-      "src/**/*",
+      "../src/**/*",
       "types/**/*"
     ],
 }
