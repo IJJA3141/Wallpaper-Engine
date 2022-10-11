@@ -1,9 +1,9 @@
 import { batteryBox } from "./class/batteryBox.js";
 import { div } from "./class/div.js";
-import { getData } from "./functions/fetchApi.js";
+//import { getData } from "./functions/fetchApi.js";
 
 const taskbar: HTMLElement = document.getElementById("taskbar");
-const desktop: HTMLElement = document.getElementById("desktop");
+const desktop:HTMLElement = document.getElementById("desktop");
 
 taskbar.setAttribute("style", "width: " + window.innerWidth + "px;");
 desktop.setAttribute(
@@ -24,5 +24,3 @@ d.obj.appendChild(t.obj);
 setTimeout(() => {
   t.upDateBattery(30);
 }, 1000);
-
-console.log(getData());

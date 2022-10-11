@@ -7,10 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import fetch from "node-fetch";
 function getData() {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield fetch("http://127.0.0.1:3000/api");
+        //return await fetch("http://127.0.0.1:3000/api");
+        return yield fetch("https://api.github.com/users/xiaotian/repos");
     });
 }
 export { getData };

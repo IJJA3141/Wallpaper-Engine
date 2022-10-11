@@ -19,21 +19,22 @@ app.get("", (req, res) => {
 });
 
 app.get("/api", (req, res) => {
-  res.send({ data: "await getData()" });
+  console.log("Request is Incoming");
+
+  const responseData = {
+    message: "Hello, GFG Learner",
+    articleData: {
+      articleName: "How to send JSON response from NodeJS",
+      category: "NodeJS",
+      status: "published",
+    },
+    endingMessage: "Visit Geeksforgeeks.org for more",
+  };
+
+  const jsonContent = JSON.stringify(responseData);
+  res.end(jsonContent);   
 });
 
 app.listen(PORT, () => {
-  console.info("Hi!");
+  console.info("Server is Listening on " + URI + " !");
 });
-
-/*
-function getData() {
-  let response = new Promise();
-  let data = JSON.parse({});
-
-  // add data from api
-  systeminformation.cpuCache().then((res) => data.push({ cpu: res }));
-  systeminformation.graphics().then((res) => data.push({ cpu: res }));
-
-  response.resolve(stringify(data));
-}*/
