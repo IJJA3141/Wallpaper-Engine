@@ -21,12 +21,9 @@ desktop.setAttribute("style", "width: " +
 const d = new div(desktop, 500, 500, 100, 100);
 const t = new batteryBox(40);
 d.obj.appendChild(t.obj);
-setTimeout(() => {
-    t.upDateBattery(30);
-}, 1000);
 (function name() {
     return __awaiter(this, void 0, void 0, function* () {
-        const rep = yield getData();
-        console.log(rep);
+        let r = yield getData();
+        console.log(r);
     });
 })();

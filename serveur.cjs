@@ -1,7 +1,21 @@
 const systeminformation = require("systeminformation");
 
+async function sys() {
+  let cpu = await systeminformation.currentLoad();
+  let gpu = await systeminformation.graphics();
+  let mem = await systeminformation.mem();
+  let disc = await systeminformation.fsSize();
+
+  let json = {
+    cpu: cpu.rawCurrentLoad / 100000,
+    gpu: gpu.controllers[0].utilizationGpu,
+    mem: (mem.total - mem.free) * 9.31 * 10 ** -10,
+    disc: disc,
+  };
+
+  return json;
+}
 const express = require("express");
-const { stringify } = require("querystring");
 
 const URI = "http://127.0.0.1:3000/";
 
@@ -18,23 +32,16 @@ app.get("", (req, res) => {
   res.render(__dirname + "/views/index.ejs");
 });
 
-app.get("/api", (req, res) => {
+app.get("/api", async (req, res) => {
   console.log("Request is Incoming");
-
-  const responseData = {
-    message: "Hello, GFG Learner",
-    articleData: {
-      articleName: "How to send JSON response from NodeJS",
-      category: "NodeJS",
-      status: "published",
-    },
-    endingMessage: "Visit Geeksforgeeks.org for more",
-  };
-
-  const jsonContent = JSON.stringify(responseData);
-  res.end(jsonContent);   
+  const jsonContent = JSON.stringify(await sys());
+  res.end(jsonContent);
 });
 
 app.listen(PORT, () => {
   console.info("Server is Listening on " + URI + " !");
 });
+
+(async function a(){
+  console.log(await sys())
+})()

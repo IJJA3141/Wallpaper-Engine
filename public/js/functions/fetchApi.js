@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 function getData() {
     return __awaiter(this, void 0, void 0, function* () {
         //return await fetch("http://127.0.0.1:3000/api");
-        return yield fetch("https://api.github.com/users/xiaotian/repos");
+        return fetch("http://127.0.0.1:3000/api").then(res => { return res.json(); });
     });
 }
 export { getData };
