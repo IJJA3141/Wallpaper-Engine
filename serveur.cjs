@@ -1,6 +1,10 @@
-const systeminformation = require("systeminformation");
+const systeminformation = require("systeminformation")
 
-async function sys() {
+async function sys(what) {
+  what.array.forEach(name => {
+    switch()
+    
+  });
   let cpu = await systeminformation.currentLoad();
   let gpu = await systeminformation.graphics();
   let mem = await systeminformation.mem();
@@ -12,7 +16,6 @@ async function sys() {
     mem: (mem.total - mem.free) * 9.31 * 10 ** -10,
     disc: disc,
   };
-
   return json;
 }
 const express = require("express");
@@ -33,6 +36,30 @@ app.get("", (req, res) => {
 });
 
 app.get("/api", async (req, res) => {
+  console.log("Request is Incoming");
+  const jsonContent = JSON.stringify(await sys());
+  res.end(jsonContent);
+});
+
+app.get("/api/cpu", async (req, res) => {
+  console.log("Request is Incoming");
+  const jsonContent = JSON.stringify(await sys());
+  res.end(jsonContent);
+});
+
+app.get("/api/gpu", async (req, res) => {
+  console.log("Request is Incoming");
+  const jsonContent = JSON.stringify(await sys());
+  res.end(jsonContent);
+});
+
+app.get("/api/mem", async (req, res) => {
+  console.log("Request is Incoming");
+  const jsonContent = JSON.stringify(await sys());
+  res.end(jsonContent);
+});
+
+app.get("/api/disc", async (req, res) => {
   console.log("Request is Incoming");
   const jsonContent = JSON.stringify(await sys());
   res.end(jsonContent);
