@@ -18,12 +18,12 @@ desktop.setAttribute("style", "width: " +
     "px; height: " +
     (window.innerHeight * 97) / 100 +
     "px;");
-const d = new div(desktop, 500, 500, 100, 100);
+const d = new div(desktop, 100, 100, 100, 100);
 const t = new batteryBox(40);
 d.obj.appendChild(t.obj);
 (function name() {
     return __awaiter(this, void 0, void 0, function* () {
-        let r = yield getData();
+        let r = yield getData(["mem", "disc"]);
         console.log(r);
     });
 })();

@@ -15,13 +15,13 @@ desktop.setAttribute(
     "px;"
 );
 
-const d = new div(desktop, 500, 500, 100, 100);
+const d = new div(desktop, 100, 100, 100, 100);
 
 const t = new batteryBox(40);
 
 d.obj.appendChild(t.obj);
 
 (async function name() {
-  let r:data = await getData();
+  let r:data = await getData(["mem", "disc"]);
   console.log(r)
 })();

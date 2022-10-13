@@ -8,16 +8,21 @@ interface disc {
   mount: string;
 }
 
-interface data{
+interface data {
   cpu: number;
   gpu: number;
   mem: number;
   disc: Array<disc>;
 }
 
-async function getData() {
-  //return await fetch("http://127.0.0.1:3000/api");
-  return fetch("http://127.0.0.1:3000/api").then(res => {return res.json()})
+async function getData(data: Array<string>) {
+  return fetch("http://127.0.0.1:3000/api", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    return res.json();
+  });
 }
 
 export { getData, data };
