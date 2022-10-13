@@ -1,5 +1,5 @@
 class div {
-    constructor(parent, width, height, top, left) {
+    constructor(parent = document.createElement("div"), width, height, top, left) {
         this.parent = parent;
         this.width = width;
         this.height = height;
