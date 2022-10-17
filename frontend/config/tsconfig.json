@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "module": "esnext",
+    "target": "es6", /*Specify ECMAScript target version*/
+    "outDir": "../public/js/" /*where to compile javascript files*/
+  },
+    "include": [
+      "../src/**/*",
+      "types/**/*"
+    ],
+}
