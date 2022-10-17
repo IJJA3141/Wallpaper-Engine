@@ -41,7 +41,7 @@ interface mediaTimelineEvent {
 }
 
 window.wallpaperPropertyListener;
-class audio {
+class audioBox {
   obj: HTMLElement;
 
   divImage: HTMLDivElement;
@@ -199,4 +199,4 @@ class audio {
   }
 }
 
-export { audio };
+export { audioBox };

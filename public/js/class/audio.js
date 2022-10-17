@@ -1,5 +1,5 @@
 window.wallpaperPropertyListener;
-class audio {
+class audioBox {
     constructor(rect) {
         this.obj = document.createElement("div");
         this.divImage = document.createElement("div");
@@ -84,4 +84,4 @@ class audio {
         this.audioVisualizationCtx = this.audioVisualization.getContext("2d");
     }
 }
-export { audio };
+export { audioBox };

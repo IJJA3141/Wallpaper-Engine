@@ -1,5 +1,6 @@
-import { batteryBox } from "./class/batteryBox.js";
-import { getData, data } from "./functions/fetchApi.js";
+//import { batteryBox } from "./class/batteryBox.js";
+import { audioBox } from "./class/audio.js";
+import { rectagle } from "./class/rectagle.js";
 
 const taskbar: HTMLElement | null = document.getElementById("taskbar");
 const desktop: HTMLElement | null = document.getElementById("desktop");
@@ -14,6 +15,10 @@ desktop?.setAttribute(
     "px;"
 );
 
+const d = new audioBox(new rectagle(100, 100, 100, 100))
+desktop?.appendChild(d.obj)
+
+/*
 const d = document.createElement("div");
 d.className = "div"
 d.setAttribute(
@@ -29,12 +34,5 @@ d.setAttribute(
     "px;"
 );
 
-const t = new batteryBox(40);
-
 desktop?.appendChild(d);
-d.appendChild(t.obj);
-
-(async function name() {
-  let r: data = await getData(["mem", "disc"]);
-  console.log(r);
-})();
+*/
