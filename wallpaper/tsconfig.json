@@ -3,7 +3,7 @@
     "moduleResolution": "Node",
     "module": "esnext",
     "target": "es6", /*Specify ECMAScript target version*/
-    "outDir": "../js/" /*where to compile javascript files*/
+    "outDir": "../../js/" /*where to compile javascript files*/
   },
     "include": [
       "./script/**/*",
