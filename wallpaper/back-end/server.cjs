@@ -29,7 +29,7 @@ async function sys(what = []) {
         used: (mem.total - mem.free) * 9.31 * 10 ** -10,
         total: mem.total * 9.31 * 10 ** -10,
       };
-    } else if (what[i] == "disc") {
+    } else if (what[i] == "disk") {
       var disc = await systeminformation.fsSize();
       json.disc = disc;
     }
@@ -40,6 +40,7 @@ async function sys(what = []) {
 
 const express = require("express");
 const bp = require("body-parser");
+const cors = require("cors")
 
 const URI = "http://127.0.0.1:3000/";
 
@@ -47,10 +48,10 @@ const app = express();
 const PORT = 3000;
 
 app.use(bp.json({ extended: true }));
-
-app.get("", (req, res) => {
-  res.render(__dirname + "/views/index.ejs");
-});
+app.use(cors({origin: "*"}))
+app.use(cors({
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));
 
 app.post("/api", async (req, res) => {
   console.log("Request is Incoming");
@@ -62,15 +63,23 @@ app.post("/api", async (req, res) => {
 app.post("/notes", (req, res) => {
   console.log("Request is Incoming");
   console.log(req.body);
-  writeToNotes(req.body)
+  writeToNotes(req.body);
   res.end();
 });
 
 app.get("/notes", (req, res) => {
   console.log("Request is Incoming");
-  let jsonContent = JSON.stringify(readNotes())
+  let jsonContent = JSON.stringify(readNotes());
+  console.log(jsonContent)
   res.end(jsonContent);
 });
+
+app.get("/mais", (req, res) => {
+  console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM")
+  res.end(
+    "var authisme = 1"
+    )
+})
 
 app.listen(PORT, () => {
   console.info("Server is Listening on " + URI + " !");
