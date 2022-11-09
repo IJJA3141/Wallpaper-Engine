@@ -1,0 +1,103 @@
+.divAudioImage {
+    height: 45%;
+    position: relative;
+
+}
+
+.audioImage {
+    border: 5px var(--blue) solid;
+    border-radius: 20px;
+    position: relative;
+}
+
+.audioUi {
+    height: 55%;
+    position: relative;
+}
+
+.audioVisualizationDiv {
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    margin: 0px;
+    position: relative;
+    height: 45%;
+}
+
+.audioVisualization {
+    height: 100%;
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    position: relative;
+}
+
+/*audio skinnyBar*/
+.audioBar {
+    height: 10%;
+    margin: 0px;
+    inset: 0px;
+    position: relative;
+    width: 100%;
+}
+
+.audioBarbackground {
+    margin: 0px;
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    height: 30%;
+    position: relative;
+    background-color: var(--lightRed);
+}
+
+.audioBarfront {
+    background-color: var(--red);
+    left: 0px;
+    height: 100%;
+    width: 20%;
+    border-radius: 10000000px;
+}
+
+.audioBarhandle {
+    aspect-ratio: 1;
+    border-radius: 10000%;
+    background-color: var(--red);
+    left: calc(100% - var(--test) / 2);
+    position: relative;
+}
+
+.audioBarleftText {}
+
+.audioBarrightText {}
+
+
+.audioTextDiv {
+    position: relative;
+    width: 100%;
+    height: 35%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.audioText {
+    text-align: center;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 150%;
+    font-weight: 400;
+    margin: 0px;
+    position: relative;
+    -webkit-text-fill-color: var(--blue);
+}
+
+.audioSubText {
+    margin: 0px;
+    text-align: center;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 250%;
+    font-weight: 400;
+    -webkit-text-fill-color: var(--blue);
+    position: relative;
+    top: auto;
+    bottom: 0px;
+}
