@@ -1,0 +1,5 @@
+﻿  RAM.cpp
+E:\Prog\C++\Project\Wallpaper-Engine-backend\Wallpaper-Engine\back-end\RAM.cpp(32,17): warning C4244: '=' : conversion de 'ULONGLONG' en 'DWORD', perte possible de données
+  back-end.cpp
+  Génération de code en cours...
+  back-end.vcxproj -> E:\Prog\C++\Project\Wallpaper-Engine-backend\Wallpaper-Engine\back-end\x64\Debug\back-end.exe
