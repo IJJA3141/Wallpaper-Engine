@@ -1,2 +1,3 @@
 ﻿  back-end.cpp
-  back-end.vcxproj -> E:\Prog\C++\Project\Wallpaper-Engine-backend\Wallpaper-Engine\back-end\x64\Debug\back-end.exe
+C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\back-end.cpp(169): warning C4715: 'Query::Get' : les chemins de contrôle ne retournent pas tous une valeur
+  back-end.vcxproj -> C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\x64\Debug\back-end.exe

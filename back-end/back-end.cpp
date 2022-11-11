@@ -2,204 +2,183 @@
 #include <iostream>
 #include <comdef.h>
 #include <Wbemidl.h>
+#include <string>
+#include <array>
 
 #pragma comment(lib, "wbemuuid.lib")
 
-int main()
-{
-    HRESULT hres;
+class Query {
+private:
+    HRESULT _hres;
+    IWbemLocator* _pLoc = NULL;
+    IWbemServices* _pSvc = NULL;
+    IEnumWbemClassObject* _pEnumerator = NULL;
 
-    // Step 1: --------------------------------------------------
-    // Initialize COM. ------------------------------------------
-
-    hres = CoInitializeEx(0, COINIT_MULTITHREADED);
-    if (FAILED(hres))
-    {
-        std::cout << "Failed to initialize COM library. Error code = 0x"
-            << std::hex << hres << std::endl;
-        return 1;                  // Program has failed.
-    }
-
-    // Step 2: --------------------------------------------------
-    // Set general COM security levels --------------------------
-
-    hres = CoInitializeSecurity(
-        NULL,
-        -1,                          // COM authentication
-        NULL,                        // Authentication services
-        NULL,                        // Reserved
-        RPC_C_AUTHN_LEVEL_DEFAULT,   // Default authentication 
-        RPC_C_IMP_LEVEL_IMPERSONATE, // Default Impersonation  
-        NULL,                        // Authentication info
-        EOAC_NONE,                   // Additional capabilities 
-        NULL                         // Reserved
-    );
-
-
-    if (FAILED(hres))
-    {
-        std::cout << "Failed to initialize security. Error code = 0x"
-            << std::hex << hres << std::endl;
-        CoUninitialize();
-        return 1;                    // Program has failed.
-    }
-
-    // Step 3: ---------------------------------------------------
-    // Obtain the initial locator to WMI -------------------------
-
-    IWbemLocator* pLoc = NULL;
-
-    hres = CoCreateInstance(
-        CLSID_WbemLocator,
-        0,
-        CLSCTX_INPROC_SERVER,
-        IID_IWbemLocator, (LPVOID*)&pLoc);
-
-    if (FAILED(hres))
-    {
-        std::cout << "Failed to create IWbemLocator object."
-            << " Err code = 0x"
-            << std::hex << hres << std::endl;
-        CoUninitialize();
-        return 1;                 // Program has failed.
-    }
-
-    // Step 4: -----------------------------------------------------
-    // Connect to WMI through the IWbemLocator::ConnectServer method
-
-    IWbemServices* pSvc = NULL;
-
-    // Connect to the root\cimv2 namespace with
-    // the current user and obtain pointer pSvc
-    // to make IWbemServices calls.
-    hres = pLoc->ConnectServer(
-        _bstr_t(L"ROOT\\CIMV2"), // Object path of WMI namespace
-        NULL,                    // User name. NULL = current user
-        NULL,                    // User password. NULL = current
-        0,                       // Locale. NULL indicates current
-        NULL,                    // Security flags.
-        0,                       // Authority (for example, Kerberos)
-        0,                       // Context object 
-        &pSvc                    // pointer to IWbemServices proxy
-    );
-
-    if (FAILED(hres))
-    {
-        std::cout << "Could not connect. Error code = 0x"
-            << std::hex << hres << std::endl;
-        pLoc->Release();
-        CoUninitialize();
-        return 1;                // Program has failed.
-    }
-
-    std::cout << "Connected to ROOT\\CIMV2 WMI namespace" << std::endl;
-
-
-    // Step 5: --------------------------------------------------
-    // Set security levels on the proxy -------------------------
-
-    hres = CoSetProxyBlanket(
-        pSvc,                        // Indicates the proxy to set
-        RPC_C_AUTHN_WINNT,           // RPC_C_AUTHN_xxx
-        RPC_C_AUTHZ_NONE,            // RPC_C_AUTHZ_xxx
-        NULL,                        // Server principal name 
-        RPC_C_AUTHN_LEVEL_CALL,      // RPC_C_AUTHN_LEVEL_xxx 
-        RPC_C_IMP_LEVEL_IMPERSONATE, // RPC_C_IMP_LEVEL_xxx
-        NULL,                        // client identity
-        EOAC_NONE                    // proxy capabilities 
-    );
-
-    if (FAILED(hres))
-    {
-        std::cout << "Could not set proxy blanket. Error code = 0x"
-            << std::hex << hres << std::endl;
-        pSvc->Release();
-        pLoc->Release();
-        CoUninitialize();
-        return 1;               // Program has failed.
-    }
-
-    // Step 6: --------------------------------------------------
-    // Use the IWbemServices pointer to make requests of WMI ----
-
-    // For example, get the name of the operating system
-    /*
-    IEnumWbemClassObject* pEnumerator = NULL;
-    hres = pSvc->ExecQuery(
-        bstr_t("WQL"),
-        bstr_t("SELECT * FROM Win32_OperatingSystem"),
-        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
-        NULL,
-        &pEnumerator);
-
-    if (FAILED(hres))
-    {
-        std::cout << "Query for operating system name failed."
-            << " Error code = 0x"
-            << std::hex << hres << std::endl;
-        pSvc->Release();
-        pLoc->Release();
-        CoUninitialize();
-        return 1;               // Program has failed.
-    }
-    */
-
-    //######################################################################
-    IEnumWbemClassObject* pEnumerator = NULL;
-    hres = pSvc->ExecQuery(
-        bstr_t("WQL"),
-        bstr_t("SELECT * FROM Win32_VideoController"),
-        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
-        NULL,
-        &pEnumerator);
-
-    if (FAILED(hres))
-    {
-        std::cout << "Query for operating system name failed."
-            << " Error code = 0x"
-            << std::hex << hres << std::endl;
-        pSvc->Release();
-        pLoc->Release();
-        CoUninitialize();
-        return 1;               // Program has failed.
-    }
-
-
-    // Step 7: -------------------------------------------------
-    // Get the data from the query in step 6 -------------------
-
-    IWbemClassObject* pclsObj = NULL;
-    ULONG uReturn = 0;
-
-    while (pEnumerator)
-    {
-        HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1,
-            &pclsObj, &uReturn);
-
-        if (0 == uReturn)
+public:
+    Query() {
+        _hres = CoInitializeEx(0, COINIT_MULTITHREADED);
+        if (FAILED(_hres))
         {
-            break;
+            std::cout << "Qurery: Failed to initialize COM library. Error code = 0x"
+                << std::hex <<_hres << std::endl;
+            return;
         }
 
-        VARIANT vtProp;
+        _hres = CoInitializeSecurity(
+            NULL,
+            -1,                          // COM authentication
+            NULL,                        // Authentication services
+            NULL,                        // Reserved
+            RPC_C_AUTHN_LEVEL_DEFAULT,   // Default authentication 
+            RPC_C_IMP_LEVEL_IMPERSONATE, // Default Impersonation  
+            NULL,                        // Authentication info
+            EOAC_NONE,                   // Additional capabilities 
+            NULL                         // Reserved
+        );
 
-        VariantInit(&vtProp);
-        // Get the value of the Name property
-        hr = pclsObj->Get(L"Name", 0, &vtProp, 0, 0);
-        std::wcout << " OS Name : " << vtProp.bstrVal << std::endl;
-        VariantClear(&vtProp);
 
-        pclsObj->Release();
+        if (FAILED(_hres))
+        {
+            std::cout << "Query: Failed to initialize security. Error code = 0x"
+                << std::hex << _hres << std::endl;
+            CoUninitialize();
+            return;
+        }        
+
+        _hres = CoCreateInstance(
+            CLSID_WbemLocator,
+            0,
+            CLSCTX_INPROC_SERVER,
+            IID_IWbemLocator, (LPVOID*)&_pLoc);
+
+        if (FAILED(_hres))
+        {
+            std::cout << "Query: Failed to create IWbemLocator object."
+                << " Err code = 0x"
+                << std::hex << _hres << std::endl;
+            CoUninitialize();
+            return;
+        }
+
+        _hres = _pLoc->ConnectServer(
+            _bstr_t(L"ROOT\\CIMV2"),  // Object path of WMI namespace
+            NULL,                     // User name. NULL = current user
+            NULL,                     // User password. NULL = current
+            0,                        // Locale. NULL indicates current
+            NULL,                     // Security flags.
+            0,                        // Authority (for example, Kerberos)
+            0,                        // Context object 
+            &_pSvc                    // pointer to IWbemServices proxy
+        );
+
+        if (FAILED(_hres))
+        {
+            std::cout << "Query: Could not connect. Error code = 0x"
+                << std::hex << _hres << std::endl;
+            _pLoc->Release();
+            CoUninitialize();
+            return;
+        }
+
+        std::cout << "Query: Connected to ROOT\\CIMV2 WMI namespace" << std::endl;
+
+        _hres = CoSetProxyBlanket(
+            _pSvc,                       // Indicates the proxy to set
+            RPC_C_AUTHN_WINNT,           // RPC_C_AUTHN_xxx
+            RPC_C_AUTHZ_NONE,            // RPC_C_AUTHZ_xxx
+            NULL,                        // Server principal name 
+            RPC_C_AUTHN_LEVEL_CALL,      // RPC_C_AUTHN_LEVEL_xxx 
+            RPC_C_IMP_LEVEL_IMPERSONATE, // RPC_C_IMP_LEVEL_xxx
+            NULL,                        // client identity
+            EOAC_NONE                    // proxy capabilities 
+        );
+
+        if (FAILED(_hres))
+        {
+            std::cout << "Query: Could not set proxy blanket. Error code = 0x"
+                << std::hex << _hres << std::endl;
+            _pSvc->Release();
+            _pLoc->Release();
+            CoUninitialize();
+            return;
+        }
+
+        return;
     }
 
-    // Cleanup
-    // ========
+    ~Query() {
+        _pSvc->Release();
+        _pLoc->Release();
+        _pEnumerator->Release();
+        CoUninitialize();
+    }
 
-    pSvc->Release();
-    pLoc->Release();
-    pEnumerator->Release();
-    CoUninitialize();
+    BSTR Get(std::string target, std::array<BSTR, size_t()>& req) {
+        
+        std::string str = "SELECT * FROM " + std::string(target);
+        BSTR QueryMessage = bstr_t(str.c_str());
+        
+        _pEnumerator = NULL;
+        _hres = _pSvc->ExecQuery(
+            bstr_t("WQL"),
+            QueryMessage,
+            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+            NULL,
+            &_pEnumerator);
 
-    return 0;   // Program successfully completed.
+        if (FAILED(_hres))
+        {
+            std::cout << "Query for operating system name failed."
+                << " Error code = 0x"
+                << std::hex << _hres << std::endl;
+            _pSvc->Release();
+            _pLoc->Release();
+            CoUninitialize();
+            return NULL;               // Program has failed.
+        }
 
+
+        // Step 7: -------------------------------------------------
+        // Get the data from the query in step 6 -------------------
+
+        IWbemClassObject* pclsObj = NULL;
+        ULONG uReturn = 0;
+
+        while (_pEnumerator)
+        {
+            HRESULT hr = _pEnumerator->Next(WBEM_INFINITE, 1,
+                &pclsObj, &uReturn);
+
+            if (0 == uReturn)
+            {
+                break;
+            }
+
+            VARIANT vtProp;
+
+            VariantInit(&vtProp);
+            // Get the value of the Name property
+            hr = pclsObj->Get(L"Name", 0, &vtProp, 0, 0);
+            std::wcout << " OS Name : " << vtProp.bstrVal << std::endl;
+
+            return vtProp.bstrVal;
+
+            VariantClear(&vtProp);
+
+            pclsObj->Release();
+        }
+    }
+};
+
+int main()
+{
+    Query q = Query();
+    std::string a = "Win32_VideoController";
+    std::string b = "Win32_Processor";
+
+    std::array<std::string, 4> l{ "Name", "Name", "Name", "Name" };
+    BSTR o = q.Get(a, &l);
+    BSTR p = q.Get(b, );
+
+    std::wcout << p << std::endl;
 }

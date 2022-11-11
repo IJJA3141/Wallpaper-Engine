@@ -8,6 +8,7 @@ public:
 	DWORD load();
 	DWORD size();
 	float freeSize();
+	void debug();
 private:
 	DWORD getLoad();
 	ULONGLONG getSize();
