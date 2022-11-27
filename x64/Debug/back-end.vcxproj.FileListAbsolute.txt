@@ -1,3 +1,0 @@
-E:\Prog\C++\Project\Wallpaper-Engine-backend\Wallpaper-Engine\back-end\x64\Debug\back-end.exe
-E:\Prog\C++\Project\Wallpaper-Engine-backend\Wallpaper-Engine\x64\Debug\back-end.exe
-C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\x64\Debug\back-end.exe

@@ -1,6 +1,0 @@
-﻿  back-end.cpp
-C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\back-end.cpp(116,57): error C2993: 'size_t (void)' : n'est pas un type valide pour le paramètre de modèle sans type '_Size'
-C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\back-end.cpp(116,60): error C2993: 'size_t (void)' : n'est pas un type valide pour le paramètre de modèle sans type '_Size'
-C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\back-end.cpp(180,25): error C2664: 'BSTR Query::Get(std::string,std::array &)' : impossible de convertir l'argument 2 de 'std::array<std::string,4> *' en 'std::array &'
-C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\back-end.cpp(116,10): message : voir la déclaration de 'Query::Get'
-C:\Users\alexe\Documents\Programation\C++\Wallpaper-Engine\back-end\back-end.cpp(181,23): error C2059: erreur de syntaxe : ')'
