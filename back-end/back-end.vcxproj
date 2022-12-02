@@ -128,9 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="back-end.cpp" />
+    <ClCompile Include="WMI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="back-end.h" />
+    <ClInclude Include="WMI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
