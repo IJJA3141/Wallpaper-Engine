@@ -7,18 +7,6 @@
 
 #pragma comment(lib, "wbemuuid.lib")
 
-crow::SimpleApp app;
-
-void serverSetUp() {
-	CROW_ROUTE(app, "/getConst")([]() {
-		return "not implemented yet !";
-		});
-
-	CROW_ROUTE(app, "/refresh")([]() {
-		return "not implemented yet !";
-		});
-}
-
 IWbemLocator* pLoc = NULL;
 IWbemServices* pSvc = NULL;
 IEnumWbemClassObject* pEnumerator = NULL;
@@ -27,6 +15,10 @@ IWbemClassObject* pclsObj = NULL;
 int cpuLOAD = 0;
 bool cpuRES = false;
 bool initRES = false;
+
+crow::SimpleApp app;
+crow::json::wvalue ConstRES = NULL;
+crow::json::wvalue refreshRES = NULL;
 
 bool initWMI() {
 	HRESULT hres;
@@ -100,14 +92,12 @@ bool getCPUdata(int* ptrL, int* ptrT) {
 		if (uReturn == 0) break;
 
 		hres = pclsObj->Get(L"PercentProcessorTime", 0, &vtProp, 0, 0);
-		std::wcout << "BSTR:" << vtProp.bstrVal << std::endl;
 		tempBSTR = (vtProp.bstrVal);
 		*ptrL = _wtoi64(tempBSTR);
 
 		VariantClear(&vtProp);
 
 		hres = pclsObj->Get(L"TimeStamp_Sys100NS", 0, &vtProp, 0, 0);
-		std::wcout << "BSTR:" << vtProp.bstrVal << std::endl;
 		tempBSTR = (vtProp.bstrVal);
 		*ptrT = _wtoi64(tempBSTR);
 
@@ -127,30 +117,47 @@ bool getCPUload(int* ptrO){
 	float res = 0.0;
 
 	if (getCPUdata(&l1, &t1)) {
-		Sleep(1000);
+		Sleep(2000);
+		
 		if (getCPUdata(&l2, &t2)) {
 			if (l2 == l1 || t2 == t1) {
-				std::cout << "l1:" << l1 << " |t1:" << t1 << " |l2:" << l2 << " |t2:" << t2 << std::endl;
 				return false;
 			}
-
-			res = (1 - (static_cast<float>(l2) - l1) / (t2 - t1)) * 100;
+			
+			res = (1 - (static_cast<float>(l2) - l1) / (t2 - t1)) * 100 * 100;
 			*ptrO = res;
+			std::cout << *ptrO << "%%" << std::endl;
+
 			return true;
 		}
 	}
-	
-	std::cout << "l1:" << l1 << " |t1:" << t1 << " |l2:" << l2 << " |t2:" << t2 << std::endl;
+
 	return false;
 }
 
-int main() {
-	initRES = initWMI();
-	cpuRES = getCPUload(&cpuLOAD);
-	std::wcout << "init:" << initRES << " |cpu:" << cpuRES << " |cpu load:" << cpuLOAD << "%" << std::endl;
+void serverSetUp() {
+	CROW_ROUTE(app, "/getConst")([]() {
+		return "not implemented yet !";
+	});
 
-	serverSetUp();
-	app.port(18080).run();
+	CROW_ROUTE(app, "/refresh")([]() {
+		if (getCPUload(&cpuLOAD)) {
+			refreshRES["cpu"] = cpuLOAD;
+		} else {
+			refreshRES["cpu"] = "NA";
+		}
+
+		return refreshRES;
+	});
+}
+
+int main() {
+	initWMI();
+	getCPUload(&cpuLOAD);
+	
+	/*serverSetUp();
+	app.port(18080).run();*/
+
 	return 0;
 }
 
