@@ -2,8 +2,11 @@
 #include <iostream>
 #include <comdef.h>
 #include <vector>
+
 #include "WMI.h"
-#include "disc.h"
+
+#include "disk.h"
+#include "crow/json.h"
 
 std::string bstr_to_str(BSTR source) {
 	_bstr_t wrapped_bstr = _bstr_t(source);
@@ -13,7 +16,18 @@ std::string bstr_to_str(BSTR source) {
 	return char_array;
 }
 
-bool test(std::vector<int>* size, std::vector<int>* sizeFREE, std::vector<std::string>* name) {
+DISK::DISK() {
+	_diskSIZE.clear();
+	_diskFREEsize.clear();
+	_diskNAME.clear();
+	diskARRAY.clear();
+}
+
+DISK::~DISK() {
+	delete this;
+}
+
+bool DISK::getDISKdata(std::vector<int>* size, std::vector<int>* sizeFREE, std::vector<std::string>* name) {
 	std::vector<int> ts;
 	std::vector<int> tsf;
 	std::vector<std::string> tn;
@@ -73,4 +87,20 @@ bool test(std::vector<int>* size, std::vector<int>* sizeFREE, std::vector<std::s
 	*size = ts;
 	*sizeFREE = tsf;
 	*name = tn;
+
+	return true;
 }
+
+bool DISK::generateCROWres() {
+	diskARRAY.clear();
+	if (getDISKdata(&_diskSIZE, &_diskFREEsize, &_diskNAME)) {
+		for (int i = 0; i < _diskSIZE.size(); i++) {
+			crow::json::wvalue diskRES = { {"name", _diskNAME[i]}, {"size", _diskSIZE[i]}, {"sizeFree", _diskFREEsize[i]} };
+			diskARRAY.push_back(diskRES);
+		}
+		return true;
+	}
+	return false;
+}
+
+DISK disk = DISK();
