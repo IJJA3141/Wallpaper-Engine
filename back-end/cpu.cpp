@@ -1,8 +1,8 @@
 #include <WbemIdl.h>
-#include <iostream>
 #include <comdef.h>
 #include "WMI.h"
 #include "cpu.h"
+#include <iostream>
 
 CPU::CPU()
 {
@@ -13,7 +13,7 @@ CPU::~CPU()
 {
 }
 
-bool CPU::getCPUdata(int* ptrL, int* ptrT) {
+bool CPU::getCPUdata(long long* ptrL, long long* ptrT) {
 	HRESULT hres;
 	ULONG uReturn = 0;
 	VARIANT vtProp;
@@ -37,7 +37,6 @@ bool CPU::getCPUdata(int* ptrL, int* ptrT) {
 
 		hres = q.pclsObj->Get(L"PercentProcessorTime", 0, &vtProp, 0, 0);
 		tempBSTR = (vtProp.bstrVal);
-		std::wcout << "BSTR:" << tempBSTR << " |INT:" << _wtoi64(tempBSTR) << std::endl;
 		*ptrL = _wtoi64(tempBSTR);
 
 		tempBSTR = NULL;
@@ -45,7 +44,6 @@ bool CPU::getCPUdata(int* ptrL, int* ptrT) {
 
 		hres = q.pclsObj->Get(L"TimeStamp_Sys100NS", 0, &vtProp, 0, 0);
 		tempBSTR = (vtProp.bstrVal);
-		std::wcout << "BSTR:" << tempBSTR << " |INT:" << _wtoi64(tempBSTR) << std::endl;
 		*ptrT = _wtoi64(tempBSTR);
 
 		tempBSTR = NULL;
@@ -58,10 +56,10 @@ bool CPU::getCPUdata(int* ptrL, int* ptrT) {
 }
 
 bool CPU::getCPUload(int* ptrO) {
-	int l1 = 0;
-	int l2 = 0;
-	int t1 = 0;
-	int t2 = 0;
+	long long l1 = 0;
+	long long l2 = 0;
+	long long t1 = 0;
+	long long t2 = 0;
 	float res = 0.0;
 
 	if (getCPUdata(&l1, &t1)) {
@@ -71,10 +69,8 @@ bool CPU::getCPUload(int* ptrO) {
 			if (l2 == l1 || t2 == t1) {
 				return false;
 			}
-			std::wcout << L"DL:" << l2 - l1 << L"\nDT:" << t2 - t1 << std::endl;
 			res = (1 - (static_cast<float>(l2) - l1) / (t2 - t1)) * 100;
 			*ptrO = res;
-			std::cout << *ptrO << "%" << std::endl;
 
 			return true;
 		}

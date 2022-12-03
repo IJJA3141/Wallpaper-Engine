@@ -129,12 +129,14 @@
   <ItemGroup>
     <ClCompile Include="back-end.cpp" />
     <ClCompile Include="cpu.cpp" />
+    <ClCompile Include="disc.cpp" />
     <ClCompile Include="ram.cpp" />
     <ClCompile Include="WMI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="back-end.h" />
     <ClInclude Include="cpu.h" />
+    <ClInclude Include="disc.h" />
     <ClInclude Include="ram.h" />
     <ClInclude Include="WMI.h" />
   </ItemGroup>

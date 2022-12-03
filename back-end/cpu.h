@@ -10,7 +10,7 @@ public:
 private:
 	int cpuLOAD;
 	bool getCPUload(int* ptrO);
-	bool getCPUdata(int* ptrL, int* ptrT);
+	bool getCPUdata(long long* ptrL, long long* ptrT);
 };
 
 extern CPU cpu;
