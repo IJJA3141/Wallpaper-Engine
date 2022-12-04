@@ -130,6 +130,7 @@
     <ClCompile Include="back-end.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="disk.cpp" />
+    <ClCompile Include="fs.cpp" />
     <ClCompile Include="ram.cpp" />
     <ClCompile Include="WMI.cpp" />
   </ItemGroup>
@@ -137,6 +138,7 @@
     <ClInclude Include="back-end.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="disk.h" />
+    <ClInclude Include="fs.h" />
     <ClInclude Include="ram.h" />
     <ClInclude Include="WMI.h" />
   </ItemGroup>
