@@ -1,33 +1,34 @@
 #include <Windows.h>
 #include "ram.h"
-#include <iostream>
 
 RAM::RAM()
 {
-	_memSTAT.dwLength = sizeof(MEMORYSTATUSEX);
-	_memINSTALED = ULONGLONG();
+	mMs.dwLength = sizeof(MEMORYSTATUSEX);
+	mMi = ULONGLONG();
 	
-	usedP = 0;
-	usedGo = 0;
-	sizeGo = 0;
+	uRp = 0;
+	uRGo = 0;
+	sRGo = 0;
+
+	GetPhysicallyInstalledSystemMemory(&mMi);
+	sRGo = mMi / 1048576;
 }
 
 RAM::~RAM()
 {
+	delete& uRp;
+	delete& uRGo;
+	delete& sRGo;
+	delete& mMi;
+	delete& mMs;
 	delete this;
 }
 
-void RAM::get() {
-	GetPhysicallyInstalledSystemMemory(&_memINSTALED);
-	sizeGo = _memINSTALED / 1048576;
-	refresh();
-}
-
 void RAM::refresh() {
-	GlobalMemoryStatusEx(&_memSTAT);
+	GlobalMemoryStatusEx(&mMs);
 	
-	usedP = _memSTAT.dwMemoryLoad;
-	usedGo = _memSTAT.dwMemoryLoad * (_memINSTALED / 1048576) / 100;
+	uRp = mMs.dwMemoryLoad;
+	uRGo = mMs.dwMemoryLoad * (mMi / 1048576) / 100;
 }
 
 RAM ram = RAM();

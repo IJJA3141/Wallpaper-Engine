@@ -2,18 +2,19 @@
 #include <comdef.h>
 #include "WMI.h"
 #include "cpu.h"
-#include <iostream>
 
 CPU::CPU()
 {
-	cpuLOAD = 0;
+	ml = 0;
 }
 
 CPU::~CPU()
 {
+	delete& ml;
+	delete this;
 }
 
-bool CPU::getCPUdata(long long* ptrL, long long* ptrT) {
+bool CPU::fetch_CPU_data(long long* ptrL, long long* ptrT) {
 	HRESULT hres;
 	ULONG uReturn = 0;
 	VARIANT vtProp;
@@ -22,7 +23,6 @@ bool CPU::getCPUdata(long long* ptrL, long long* ptrT) {
 
 	hres = q.pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT * FROM Win32_PerfRawData_PerfOS_Processor where Name='_Total' "), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &q.pEnumerator);
 	if (FAILED(hres)) {
-		std::cout << "Query for operating system name failed." << std::hex << hres << std::endl;
 		q.pSvc->Release();
 		q.pLoc->Release();
 		CoUninitialize();
@@ -51,21 +51,22 @@ bool CPU::getCPUdata(long long* ptrL, long long* ptrT) {
 		q.pclsObj->Release();
 		q.pclsObj = NULL;
 	}
+	q.pEnumerator = NULL;
 
 	return true;
 }
 
-bool CPU::getCPUload(int* ptrO) {
+bool CPU::calculate_CPU_load(int* ptrO) {
 	long long l1 = 0;
 	long long l2 = 0;
 	long long t1 = 0;
 	long long t2 = 0;
 	float res = 0.0;
 
-	if (getCPUdata(&l1, &t1)) {
+	if (fetch_CPU_data(&l1, &t1)) {
 		Sleep(1000);
 
-		if (getCPUdata(&l2, &t2)) {
+		if (fetch_CPU_data(&l2, &t2)) {
 			if (l2 == l1 || t2 == t1) {
 				return false;
 			}
@@ -79,9 +80,9 @@ bool CPU::getCPUload(int* ptrO) {
 	return false;
 }
 
-int CPU::int_getCPUload() {
-	if (getCPUload(&cpuLOAD)) {
-		return cpuLOAD;
+int CPU::get() {
+	if (calculate_CPU_load(&ml)) {
+		return ml;
 	}
 	else
 	{

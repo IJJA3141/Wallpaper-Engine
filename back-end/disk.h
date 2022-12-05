@@ -7,15 +7,14 @@ public:
 	DISK();
 	~DISK();
 
-	bool generateCROWres();
-	std::vector<crow::json::wvalue> diskARRAY;
+	std::vector<crow::json::wvalue> get();
 
 private:
-	bool getDISKdata(std::vector<int>* size, std::vector<int>* sizeFREE, std::vector<std::string>* name);
+	bool get_disk_data(std::vector<int>* pSo, std::vector<int>* pFso, std::vector<std::string>* pNo);
 
-	std::vector<int> _diskSIZE;
-	std::vector<int> _diskFREEsize;
-	std::vector<std::string> _diskNAME;
+	std::vector<int> mSd;
+	std::vector<int> mFsd;
+	std::vector<std::string> mNd;
 };
 
 extern DISK disk;

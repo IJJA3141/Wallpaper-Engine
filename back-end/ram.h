@@ -5,16 +5,15 @@ public:
 	RAM();
 	~RAM();
 
-	int usedP;
-	int usedGo;
-	int sizeGo;
+	int uRp;
+	int uRGo;
+	int sRGo;
 
-	void get();
 	void refresh();
 
 private:
-	MEMORYSTATUSEX _memSTAT;
-	ULONGLONG _memINSTALED;
+	MEMORYSTATUSEX mMs;
+	ULONGLONG mMi;
 };
 
 extern RAM ram;

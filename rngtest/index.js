@@ -7,3 +7,8 @@ fetch("http://localhost:18080/write", {
     body: JSON.stringify(obj)
 }
 )
+
+setTimeout(console.log(fetch("http://localhost:18080/getConst", {
+    method: "GET"
+}
+)),1000)

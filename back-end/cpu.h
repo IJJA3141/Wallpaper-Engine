@@ -5,12 +5,12 @@ public:
 	CPU();
 	~CPU();
 
-	int int_getCPUload();
+	int get();
 
 private:
-	int cpuLOAD;
-	bool getCPUload(int* ptrO);
-	bool getCPUdata(long long* ptrL, long long* ptrT);
+	int ml;
+	bool calculate_CPU_load(int* ptrO);
+	bool fetch_CPU_data(long long* ptrL, long long* ptrT);
 };
 
 extern CPU cpu;

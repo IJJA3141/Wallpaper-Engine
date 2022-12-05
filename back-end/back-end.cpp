@@ -5,38 +5,43 @@
 #include "fs.h"
 
 crow::SimpleApp app;
-crow::json::wvalue constRES = NULL;
-crow::json::wvalue refreshRES = NULL;
-crow::json::wvalue::list res;
 
 void serverSetUp() {
 	CROW_ROUTE(app, "/getConst")([]() {
-	ram.get();
-	disk.generateCROWres();
-	fsCROWres(&res);
+	crow::json::wvalue crowRes = NULL;
 
-	constRES["notes"] = crow::json::wvalue::list(res);
-	constRES["disc"] = crow::json::wvalue::list(disk.diskARRAY);
-	constRES["ram"] = { {"size", ram.sizeGo}, {"used%", ram.usedP}, {"usedGo", ram.usedGo} };
-	constRES["cpu"] = cpu.int_getCPUload();
-	return constRES;
+	crowRes.clear();
+
+	ram.refresh();
+
+	crowRes["notes"] = crow::json::wvalue::list(pen.get());
+	crowRes["disc"] = crow::json::wvalue::list(disk.get());
+	crowRes["ram"] = { {"size", ram.sRGo}, {"used%", ram.uRp}, {"usedGo", ram.uRGo} };
+	crowRes["cpu"] = cpu.get();
+
+	return crowRes;
 	});
 
 	CROW_ROUTE(app, "/refresh")([]() {
+	crow::json::wvalue crowRes = NULL;
+	crowRes.clear();
 	ram.refresh();
-	refreshRES["ram"] = { {"used%", ram.usedP}, {"usedGo", ram.usedGo} };
-	refreshRES["cpu"] = cpu.int_getCPUload();
-	return refreshRES;
+	
+	crowRes["ram"] = { {"used%", ram.uRp}, {"usedGo", ram.uRGo} };
+	crowRes["cpu"] = cpu.get();
+
+	return crowRes;
 	});
 
 	CROW_ROUTE(app, "/write").methods(crow::HTTPMethod::POST)([](const crow::request& req) {
-	write(req.body.data());
+	pen.set(req.body.data());
 	return 200;
 	});
 }
 
 int main() {
 	serverSetUp();
+	app.loglevel(crow::LogLevel::Warning);
 	app.port(18080).run();
 	return 0;
 }
