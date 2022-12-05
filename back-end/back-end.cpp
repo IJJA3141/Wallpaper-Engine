@@ -28,6 +28,11 @@ void serverSetUp() {
 	refreshRES["cpu"] = cpu.int_getCPUload();
 	return refreshRES;
 	});
+
+	CROW_ROUTE(app, "/write").methods(crow::HTTPMethod::POST)([](const crow::request& req) {
+	write(req.body.data());
+	return 200;
+	});
 }
 
 int main() {

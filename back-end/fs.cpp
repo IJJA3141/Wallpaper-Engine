@@ -4,14 +4,22 @@
 #include "crow/json.h"
 #include "fs.h"
 
-int write(std::vector<std::string> v) {
+int write(std::string s) {
+	std::string delimiter = "//n//";
+	size_t pos = 0;
+	std::string token;
 	std::ofstream notes;
 	notes.open("notes.txt");
+	s.erase(0, 0);
+	s.erase(s.length() - 1, s.length() - 1);
 	if (notes.is_open()) {
 		notes.clear();
-		for (int i = 0; i < v.size(); i++) {
-			notes << v[i] << "\n";
-		}
+		while ((pos = s.find(delimiter)) != std::string::npos) {
+			std::cout << "toke:" << token << std::endl;
+			token = s.substr(0, pos);
+			notes << token;
+			s.erase(0, pos + delimiter.length());
+		};
 		notes.close();
 		return 0;
 	}
