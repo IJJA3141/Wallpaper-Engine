@@ -40,6 +40,7 @@ void serverSetUp() {
 }
 
 int main() {
+	FreeConsole();
 	serverSetUp();
 	app.loglevel(crow::LogLevel::Warning);
 	app.port(18080).run();
