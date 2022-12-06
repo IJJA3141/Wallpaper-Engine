@@ -30,5 +30,3 @@ void RAM::refresh() {
 	uRp = mMs.dwMemoryLoad;
 	uRGo = mMs.dwMemoryLoad * (mMi / 1048576) / 100;
 }
-
-RAM ram = RAM();

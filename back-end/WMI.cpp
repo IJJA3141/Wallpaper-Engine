@@ -56,5 +56,3 @@ WMIQuery::~WMIQuery()
 	pLoc->Release();
 	CoUninitialize();
 }
-
-WMIQuery q = WMIQuery();

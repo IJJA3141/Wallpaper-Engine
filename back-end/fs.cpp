@@ -49,5 +49,3 @@ crow::json::wvalue::list PEN::get() {
 	}
 	return res;
 }
-
-PEN pen = PEN();

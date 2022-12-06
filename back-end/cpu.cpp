@@ -17,7 +17,7 @@ CPU::~CPU()
 bool CPU::fetch_CPU_data(long long* ptrL, long long* ptrT) {
 	HRESULT hres;
 	ULONG uReturn = 0;
-	VARIANT vtProp;
+	VARIANT vtProp = VARIANT();
 	q.pEnumerator = NULL;
 	BSTR tempBSTR = NULL;
 
@@ -62,7 +62,7 @@ bool CPU::calculate_CPU_load(int* ptrO) {
 	long long t1 = 0;
 	long long t2 = 0;
 	float res = 0.0;
-
+	/*
 	if (fetch_CPU_data(&l1, &t1)) {
 		Sleep(1000);
 
@@ -76,11 +76,13 @@ bool CPU::calculate_CPU_load(int* ptrO) {
 			return true;
 		}
 	}
+	*/
 
 	return false;
 }
 
 int CPU::get() {
+	ml = 0;
 	if (calculate_CPU_load(&ml)) {
 		return ml;
 	}
@@ -89,5 +91,3 @@ int CPU::get() {
 		return 101;
 	}
 }
-
-CPU cpu = CPU();

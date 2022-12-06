@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const obj = "ligne1//n//ligne2//n//s";
+const obj = "ligne1//n//ligne2//n//sfdsaaek//n//fkadeal";
 
 fetch("http://localhost:18080/write", {
     method: "POST",
@@ -8,7 +8,18 @@ fetch("http://localhost:18080/write", {
 }
 )
 
-setTimeout(console.log(fetch("http://localhost:18080/getConst", {
-    method: "GET"
+function c(){
+    console.log(">")
+    fetch("http://localhost:18080/refresh");
+    console.log("||")
 }
-)),1000)
+
+fetch("http://localhost:18080/getConst");
+
+function f(){
+    setTimeout(c, 5000)
+}
+
+for(let i = 0; i < 10000; i++){
+    f();
+}
