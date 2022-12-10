@@ -23,7 +23,7 @@ void serverSetUp() {
 
 	crowRes["ram"] = { {"size", ram.sRGo}, {"used%", ram.uRp}, {"usedGo", ram.uRGo} };
 	crowRes["notes"] = crow::json::wvalue::list(pen.get());
-	//crowRes["disc"] = crow::json::wvalue::list(disk.get());
+	crowRes["disc"] = crow::json::wvalue::list(disk.get());
 	crowRes["cpu"] = cpu.get();
 	return crowRes;
 	});
