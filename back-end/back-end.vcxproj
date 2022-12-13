@@ -135,7 +135,6 @@
     <ClCompile Include="WMI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="back-end.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="disk.h" />
     <ClInclude Include="fs.h" />

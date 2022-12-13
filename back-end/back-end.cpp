@@ -45,8 +45,6 @@ void serverSetUp()
 
 int main() {
 	FreeConsole();
-	HWND wnd = GetConsoleWindow();
-	PostMessage(wnd, WM_CLOSE, 0, 0);
 	serverSetUp();
 	app.loglevel(crow::LogLevel::Warning);
 	app.port(18080).run();
