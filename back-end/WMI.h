@@ -15,10 +15,6 @@ public:
 	bool disk(std::vector<__int64>* pIVfs, std::vector<__int64>* pIVs, std::vector<std::string>* pSVn);
 
 private:
-	BSTR mStrQuery;
-	BSTR mCpuStrQueryLanguage;
-	BSTR mDiskStrQueryLanguage;
-
 	std::string _str_t(BSTR source);
 };
 

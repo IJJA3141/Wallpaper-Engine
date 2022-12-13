@@ -1,32 +1,40 @@
 #include <Windows.h>
+#include <vector>
+#include "crow/json.h"
 #include "ram.h"
 
 RAM::RAM()
 {
-	mMs.dwLength = sizeof(MEMORYSTATUSEX);
 	mMi = ULONGLONG();
-	
-	uRp = 0;
-	uRGo = 0;
-	sRGo = 0;
-
 	GetPhysicallyInstalledSystemMemory(&mMi);
-	sRGo = mMi / 1048576;
 }
 
 RAM::~RAM()
 {
-	delete& uRp;
-	delete& uRGo;
-	delete& sRGo;
 	delete& mMi;
-	delete& mMs;
 	delete this;
 }
 
-void RAM::refresh() {
-	GlobalMemoryStatusEx(&mMs);
+std::vector<crow::json::wvalue> RAM::getConst()
+{
+	MEMORYSTATUSEX memeSize = MEMORYSTATUSEX();
+	memeSize.dwLength = sizeof(MEMORYSTATUSEX);
+	std::vector < crow::json::wvalue> res;
+
+	GlobalMemoryStatusEx(&memeSize);
+	res.push_back({ {"Size", mMi / 1048576}, {"Used", memeSize.dwMemoryLoad * (mMi / 1048576) / 100}, {"Percentage", int(memeSize.dwMemoryLoad)} });
 	
-	uRp = mMs.dwMemoryLoad;
-	uRGo = mMs.dwMemoryLoad * (mMi / 1048576) / 100;
+	return res;
+}
+
+std::vector<crow::json::wvalue> RAM::get()
+{
+	MEMORYSTATUSEX memeSize = MEMORYSTATUSEX();
+	memeSize.dwLength = sizeof(MEMORYSTATUSEX);
+	std::vector < crow::json::wvalue> res;
+	
+	GlobalMemoryStatusEx(&memeSize);
+	res.push_back({ {"Used", memeSize.dwMemoryLoad * (mMi / 1048576) / 100}, {"Percentage", int(memeSize.dwMemoryLoad)} });
+	
+	return res;
 }

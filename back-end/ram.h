@@ -5,14 +5,10 @@ public:
 	RAM();
 	~RAM();
 
-	int uRp;
-	int uRGo;
-	int sRGo;
-
-	void refresh();
+	std::vector<crow::json::wvalue> getConst();
+	std::vector<crow::json::wvalue> get();
 
 private:
-	MEMORYSTATUSEX mMs;
 	ULONGLONG mMi;
 };
 

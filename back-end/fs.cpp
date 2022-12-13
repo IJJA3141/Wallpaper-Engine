@@ -27,7 +27,6 @@ bool PEN::set(std::string s) {
 }
 
 void PEN::read(std::vector<std::string>* v) {
-	v->clear();
 	std::string currentL;
 	std::ifstream notes;
 	notes.open("notes.txt");
@@ -37,7 +36,9 @@ void PEN::read(std::vector<std::string>* v) {
 			v->push_back(currentL);
 		}
 		notes.close();
+		return;
 	}
+	return;
 }
 
 crow::json::wvalue::list PEN::get() {

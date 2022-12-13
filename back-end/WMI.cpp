@@ -10,11 +10,7 @@
 #include <codecvt>
 
 WMIQuery::WMIQuery()
-{
-	mStrQuery = _bstr_t("WQL");
-	mDiskStrQueryLanguage = _bstr_t("SELECT * FROM Win32_LogicalDisk");
-	mCpuStrQueryLanguage = _bstr_t("SELECT * FROM Win32_PerfRawData_PerfOS_Processor where Name='_Total' ");
-
+{	
 	IWbemLocator* pLoc = nullptr;
 	HRESULT hres;
 
@@ -38,8 +34,10 @@ bool WMIQuery::cpu(__int64* ptrL, __int64* ptrT)
 	HRESULT hres;
 	IEnumWbemClassObject* pEnumerator = nullptr;
 
-	hres = pSvc->ExecQuery(mStrQuery, mCpuStrQueryLanguage, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+	BSTR mStrQuery = _bstr_t("WQL");
+	BSTR mCpuStrQueryLanguage = _bstr_t("SELECT * FROM Win32_PerfRawData_PerfOS_Processor where Name='_Total' ");
 
+	hres = pSvc->ExecQuery(mStrQuery, mCpuStrQueryLanguage, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
 	if (FAILED(hres))
 	{
 		pEnumerator->Reset();
@@ -68,6 +66,8 @@ bool WMIQuery::cpu(__int64* ptrL, __int64* ptrT)
 		pclsObj->Release();
 	}
 
+	SysReleaseString(mStrQuery);
+	SysReleaseString(mCpuStrQueryLanguage);
 	pEnumerator->Reset();
 	pEnumerator->Release();
 
@@ -79,7 +79,10 @@ bool WMIQuery::disk(std::vector<__int64>* pIVfs, std::vector<__int64>* pIVs, std
 	HRESULT hres;
 	IEnumWbemClassObject* pEnumerator = nullptr;
 
-	hres = pSvc->ExecQuery(mStrQuery, mCpuStrQueryLanguage, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+	BSTR mStrQuery = _bstr_t("WQL");
+	BSTR mDiskStrQueryLanguage = _bstr_t("SELECT * FROM Win32_LogicalDisk");
+
+	hres = pSvc->ExecQuery(mStrQuery, mDiskStrQueryLanguage, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
 
 	pIVfs->clear();
 	pIVs->clear();
@@ -118,6 +121,8 @@ bool WMIQuery::disk(std::vector<__int64>* pIVfs, std::vector<__int64>* pIVs, std
 		pclsObj->Release();
 	}
 
+	SysReleaseString(mStrQuery);
+	SysReleaseString(mDiskStrQueryLanguage);
 	pEnumerator->Reset();
 	pEnumerator->Release();
 	
