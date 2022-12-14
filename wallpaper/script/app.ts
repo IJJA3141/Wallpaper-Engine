@@ -1,4 +1,5 @@
 //import { batteryBox } from "./class/batteryBox.js";
+/*
 import { audioBox } from "./class/audio.js";
 import { rectagle } from "./class/rectagle.js";
 
@@ -36,3 +37,10 @@ d.setAttribute(
 
 desktop?.appendChild(d);
 */
+
+import { getConst, getRefresh, saveNotes, dataConst, dataRefresh } from "./functions/fetchApi";
+
+let p:Promise<dataConst> = new Promise(getConst)
+p.then((res:dataConst)=>{
+  console.log(res)
+});
