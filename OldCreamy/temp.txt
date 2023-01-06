@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft Visual Studio">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+
+class Audio : public ISystemMediaTransportControlsInterop
+{
+    Audio() {};
+    ~Audio() {};
+
+    HRESULT __stdcall QueryInterface (const IID& iid, void** ppv);
+    HRESULT STDMETHODCALLTYPE GetForWindow(
+
+        /* [in] */ __RPC__in HWND appWindow,
+        /* [in] */ __RPC__in REFIID riid,
+        /* [iid_is][retval][out] */ __RPC__deref_out_opt void** mediaTransportControl);
+};
+HRESULT __stdcall  Audio::QueryInterface(const IID& iid, void** ppv)
+{
+    //if (iid == IID_IUnknown || iid == IID_ISystemMediaTransportControlsInterop)
+    if(TRUE)
+    {
+        *ppv = static_cast<ISystemMediaTransportControlsInterop*>(this);
+    } 
+    else {
+        *ppv = NULL;
+        return E_NOINTERFACE;
+    }
+    IUnknown;
+ //   static_cast<IUnknown*>(*ppv)->AddRef();
+
+    return S_OK;
+}
+
+HRESULT STDMETHODCALLTYPE Audio::GetForWindow(/* [in] */ __RPC__in HWND appWindow,/* [in] */ __RPC__in REFIID riid,/* [iid_is][retval][out] */ __RPC__deref_out_opt void** mediaTransportControl) 
+{
+    return S_OK;
+}
+
+void test(Creamy* mainWindow)
+{
+    HRESULT hres = S_OK;
+    ISystemMediaTransportControlsInterop* p = NULL;
+    IUnknown* pIUK = NULL;
+
+    hres = pIUK->QueryInterface(IID_ISystemMediaTransportControlsInterop, (void**)&p);
+
+    return;
+}
+
+
+</BODY>
+</HTML>

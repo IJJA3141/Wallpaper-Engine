@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>resources/background.png</file>
+        <file>resources/cherry.gif</file>
+        <file>resources/cherry1.png</file>
+        <file>resources/cherry2.png</file>
+        <file>resources/cherry3.png</file>
+    </qresource>
+</RCC>
