@@ -30,12 +30,18 @@
     <ClInclude Include="notesPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="back-end.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="notesPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

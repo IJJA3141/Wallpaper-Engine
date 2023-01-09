@@ -131,11 +131,13 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="notesPopup.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="server.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="back-end.cpp" />
     <ClCompile Include="notesPopup.cpp" />
+    <ClCompile Include="server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="back-end.rc" />
